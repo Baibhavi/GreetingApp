@@ -1,6 +1,7 @@
 package com.greetingapplication.controller;
 
 import com.greetingapplication.dto.AuthUserDTO;
+import com.greetingapplication.dto.ForgotPassword;
 import com.greetingapplication.dto.LoginDTO;
 import com.greetingapplication.dto.ResponseDTO;
 import com.greetingapplication.model.AuthUser;
@@ -29,5 +30,13 @@ public class AuthUserController {
         String result=authenticationService.login(loginDTO);
         ResponseDTO responseUserDTO=new ResponseDTO("Login successfully!!",result);
         return  new ResponseEntity<>(responseUserDTO,HttpStatus.OK);
+    }
+
+    @PutMapping("/auth/forgotPassword/{email}")
+    public ResponseEntity<ResponseDTO> forgotPassword(@PathVariable String email,
+                                                      @Valid @RequestBody ForgotPassword forgotPasswordDTO) {
+        String responseMessage = authenticationService.forgotPassword(email, forgotPasswordDTO.getPassword());
+        ResponseDTO responseDTO = new ResponseDTO(responseMessage, null);
+        return new ResponseEntity<>(responseDTO, HttpStatus.OK);
     }
 }
